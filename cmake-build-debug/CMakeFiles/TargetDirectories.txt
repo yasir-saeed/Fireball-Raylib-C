@@ -1,0 +1,3 @@
+/Users/saeed/CLionProjects/testing/cmake-build-debug/CMakeFiles/example.dir
+/Users/saeed/CLionProjects/testing/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/saeed/CLionProjects/testing/cmake-build-debug/CMakeFiles/rebuild_cache.dir
