@@ -1,17 +1,25 @@
 #include "raylib.h"
+#include "raymath.h"
+#include "stdio.h"
 
-//------------------------------------------------------------------------------------
-// Program main entry point
-//------------------------------------------------------------------------------------
+
+struct ball{
+    float x,y;
+    float radius;
+};
+
 int main(void)
 {
     // Initialization
-    //--------------------------------------------------------------------------------------
     const int screenWidth = 800;
     const int screenHeight = 800;
+    struct ball Ball;
+    Ball.x = screenWidth / 2;
+    Ball.y = screenHeight / 2;
+    Ball.radius = 10;
 
     InitWindow(screenWidth, screenHeight, "game development");
-    SetTargetFPS(FLAG_VSYNC_HINT);               // Set our game to run at 60 frames-per-second
+    SetTargetFPS(FLAG_VSYNC_HINT);
     //--------------------------------------------------------------------------------------
 
     // Main game loop
@@ -21,12 +29,42 @@ int main(void)
         BeginDrawing();
         ClearBackground(RAYWHITE);
 
-        DrawText("WELCOME.", 190, 200, 20, LIGHTGRAY);
+        DrawCircle((int)Ball.x, (int)Ball.y, (int)Ball.radius, BLACK);
+
+        if(IsKeyDown(KEY_W)){
+              Ball.y -= 200 * GetFrameTime();
+        }
+        if(IsKeyDown(KEY_S)){
+            Ball.y += 200 * GetFrameTime();
+        }
+
+        if(IsKeyDown(KEY_A)){
+            Ball.x -= 200 * GetFrameTime();
+        }
+        if(IsKeyDown(KEY_D)){
+            Ball.x += 200 * GetFrameTime();
+        }
+
+
+        if(Ball.y > GetScreenHeight()){
+            Ball.y = GetScreenHeight();
+        }
+        if(Ball.y < 0){
+            Ball.y = 0;
+        }
+
+        if(Ball.x > GetScreenWidth()){
+            Ball.x = GetScreenWidth();
+        }
+        if(Ball.x < 0){
+            Ball.x = 0;
+        }
+
 
         EndDrawing();
 
     }
 
-    CloseWindow();        // Close window and OpenGL context
+    CloseWindow();
     return 0;
 }
