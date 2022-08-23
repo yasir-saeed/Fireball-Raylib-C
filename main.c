@@ -11,6 +11,14 @@ struct platform {
     float height, width;
 };
 
+void init(){
+
+    BeginDrawing();
+    DrawFPS(10, 10);
+    ClearBackground(SKYBLUE);
+
+}
+
 
 int main(void) {
     // Initialization
@@ -18,18 +26,8 @@ int main(void) {
     const int screenWidth = 800;
     const int screenHeight = 800;
 
-    struct ball Ball;
-
-    Ball.x = screenWidth / 2;
-    Ball.y = 800;
-    Ball.radius = 10;
-
-    struct ball Fireball;
-    Fireball.x = 400;
-    Fireball.y = 10;
-
     int score = 0;
-    bool losecondition = false;
+    bool loseCondition = false;
 
     struct platform Ground[3];
     for (int i = 0; i < 4; i++) {
@@ -38,6 +36,15 @@ int main(void) {
         Ground[i].height = 40;
         Ground[i].width = GetRandomValue(50, 400);
     }
+
+    struct ball Ball;
+    Ball.x = Ground[0].x + 20;
+    Ball.y = 760;
+    Ball.radius = 10;
+
+    struct ball Fireball;
+    Fireball.x = 400;
+    Fireball.y = 10;
 
 
     InitWindow(screenWidth, screenHeight, "FIREBALL");
@@ -50,13 +57,12 @@ int main(void) {
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
 
-        BeginDrawing();
-        DrawFPS(10, 10);
-        ClearBackground(SKYBLUE);
+        init();
+
         DrawText(TextFormat("SCORE %i", score), 320, 20, 40, RED);
 
 
-        if (!losecondition) {
+        if (!loseCondition) {
             DrawTexture(fireball, Fireball.x, Fireball.y, WHITE);
             DrawCircle((int) Ball.x, (int) Ball.y, (int) Ball.radius, BLACK);
 
@@ -78,7 +84,7 @@ int main(void) {
 
         // increase score if fireball is dodged
         if (Fireball.y > GetScreenHeight()) {
-            Fireball.x = GetRandomValue(0, GetScreenWidth());
+            Fireball.x = GetRandomValue(0, GetScreenWidth()-42);
             Fireball.y = 0;
             score++;
         }
@@ -87,18 +93,21 @@ int main(void) {
         if (CheckCollisionCircleRec((Vector2) {Ball.x, Ball.y}, Ball.radius,
                                     (Rectangle) {Fireball.x, Fireball.y, 42, 43})) {
 
-            losecondition = true;
+            loseCondition = true;
 
         }
 
-        if (losecondition) {
+
+
+        if (loseCondition) {
             DrawText(TextFormat("GAME OVER. Press Q to reset."), 100, 400, 40, RED);
 
             // Game reset
             if (IsKeyPressed(KEY_Q)) {
                 score = 0;
-                losecondition = false;
+                loseCondition = false;
                 Fireball.y = 0;
+                Ball.y = 760;
             }
 
         }
