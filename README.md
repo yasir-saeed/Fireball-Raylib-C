@@ -1,2 +1,6 @@
-# raylib-game-development
-Learning game dev with C and raylib
+# FIREBALL
+Developed in C using raylib library
+
+Player takes control of a ball, jumping platform to platform avoiding fireballs raining from the sky. 
+
+As your score increases, the fireballs fall down faster. Survive as long as you can!
