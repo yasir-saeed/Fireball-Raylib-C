@@ -3,6 +3,8 @@ project(example)
 
 # Generate compile_commands.json
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Dependencies
 find_package(raylib 4.2.0 QUIET) # QUIET or REQUIRED
@@ -28,10 +30,10 @@ add_executable(${PROJECT_NAME} main.c)
 target_link_libraries(${PROJECT_NAME} raylib)
 
 # Web Configurations
-#if (${PLATFORM} STREQUAL "Web")
-    # Tell Emscripten to build an example.html file.
-   # set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ".html")
-#endif()
+if (EMSCRIPTEN)
+    #Tell Emscripten to build an example.html file.
+set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ".html")
+endif()
 
 # Checks if OSX and links appropriate frameworks (Only required on MacOS)
 if (APPLE)
